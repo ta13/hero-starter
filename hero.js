@@ -179,8 +179,34 @@ var moves = {
     }
 };
 
-// Set our hero's strategy
-var move =  moves.aggressor;
+// test memory between turns
+var lastDir = 'North';
+var lastDirM;
 
-// Export the move function here
-module.exports = move;
+function play(G,H){
+  if (lastDir == 'North'){
+    lastDirM = ['South','East','West'];
+    lastDir = lastDirM  [(Math.random()*3) >> 0 ];
+    return lastDir;
+  } else {
+    lastDir = 'North';
+    return lastDir;
+  }
+}
+
+function move (G,H){
+    //  helpers=H; gameData=G;
+    //  (helpers = h).setGameData(gameData = g); // :p
+    let myHero = G.activeHero;
+    let board = G.board;
+    let heroes = G.heroes;
+    let friends = G.teams[ myHero.team ];
+    let friendsMoney = G.totalTeamDiamonds [ myHero.team ];
+    let friendsMines = G.diamondMines.filter( m => m.owner && !m.owner.dead && m.owner.team === myHero.team );
+    let enemies = G.teams[ 1 - myHero.team ];
+    let enemiesMoney = G.totalTeamDiamonds [ 1 - myHero.team ];
+    let enemiesMines = G.diamondMines.filter( m => m.owner && !m.owner.dead && m.owner.team !== myHero.team );
+    let turn = G.turn;
+};
+
+module.exports = play;
